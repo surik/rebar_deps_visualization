@@ -1,0 +1,8 @@
+{application, rebar_deps_visualization,
+ [
+  {description, "Rebar Dependencies Visualization Plugin"},
+  {vsn, "1.0.0"},
+  {registered, []},
+  {applications, [kernel, stdlib]},
+  {env, []}
+ ]}.

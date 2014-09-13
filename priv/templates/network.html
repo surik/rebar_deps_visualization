@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+    <title>{{title}}</title>
+    <link href="http://visjs.org/dist/vis.css" rel="stylesheet" type="text/css" />
+    <script src="http://visjs.org/dist/vis.js"></script>
+</head>
+<body>
+    <div id="network"></div>
+    <script type="text/javascript">
+        {{network}}
+        var container = document.getElementById('network');
+        var data = {
+            nodes: nodes,
+            edges: edges
+        };
+        var options = {};
+        var network = new vis.Network(container, data, options);
+    </script>
+</body>
+</html>
