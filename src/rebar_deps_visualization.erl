@@ -47,7 +47,7 @@ title(App) ->
 
 network(Network) ->
     Apps = uflatten([[To, From] || {To, From} <- Network]),
-    Nodes = [io_lib:format("{id: '~p'},", [App]) || App <- Apps],
-    Edges = [io_lib:format("{from: '~p', to: '~p'},", [From, To]) || {From, To} <- Network],
+    Nodes = [io_lib:format("{id: '~s'},", [App]) || App <- Apps],
+    Edges = [io_lib:format("{from: '~s', to: '~s'},", [From, To]) || {From, To} <- Network],
     <<"var nodes = [", (list_to_binary(Nodes))/binary, "];",
       "var edges = [", (list_to_binary(Edges))/binary, "];">>.
