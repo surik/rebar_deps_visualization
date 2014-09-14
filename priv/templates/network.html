@@ -14,7 +14,11 @@
             nodes: nodes,
             edges: edges
         };
-        var options = {};
+        var options = {
+            edges: {
+                style: 'arrow'
+            }
+        };
         var network = new vis.Network(container, data, options);
     </script>
 </body>
