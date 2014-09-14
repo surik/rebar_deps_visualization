@@ -22,13 +22,17 @@ traversal(Current) ->
     end,
     [begin
         DepAppName = app_name(Dep),
-        [{app_name(Current), DepAppName}] ++ traversal(deps_dir(Config, DepAppName)) 
-     end || Dep <- Deps].
+        CurrentAppName = app_name(Current),
+        [{CurrentAppName, DepAppName}] ++ traversal(deps_dir(Config, DepAppName)) 
+     end || Dep <- Deps, 
+            app_name(Dep) /= rebar_deps_visualization, 
+            app_name(Current) /= rebar_deps_visualization].
 
 app_name(App) when is_list(App) -> list_to_atom(lists:last(filename:split(App)));
 app_name(App) when is_atom(App) -> App;
 app_name({App, _}) when is_atom(App) -> App;
-app_name({App, _, _}) when is_atom(App) -> App.
+app_name({App, _, _}) when is_atom(App) -> App;
+app_name({App, _, _, _}) when is_atom(App) -> App.
 
 deps_dir(Config, App) ->
     DepsDir = rebar_config:get_xconf(Config, deps_dir, "deps"),
@@ -43,11 +47,11 @@ uflatten(List) ->
     lists:usort(lists:flatten(List)).
 
 title(App) -> 
-    <<(atom_to_binary(App, latin1))/binary, "'s dependencies network">>.
+    <<(atom_to_binary(App, latin1))/binary, "\'s dependencies network">>.
 
 network(Network) ->
     Apps = uflatten([[To, From] || {To, From} <- Network]),
-    Nodes = [io_lib:format("{id: '~s'},", [App]) || App <- Apps],
-    Edges = [io_lib:format("{from: '~s', to: '~s'},", [From, To]) || {From, To} <- Network],
+    Nodes = [io_lib:format("{id: \'~s\'},", [App]) || App <- Apps],
+    Edges = [io_lib:format("{from: \'~s\', to: \"~s\"},", [From, To]) || {From, To} <- Network],
     <<"var nodes = [", (list_to_binary(Nodes))/binary, "];",
       "var edges = [", (list_to_binary(Edges))/binary, "];">>.
